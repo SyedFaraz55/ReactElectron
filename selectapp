@@ -1,0 +1,37 @@
+<div>
+          <SiGoogle
+            size={40}
+            id="icon"
+            onClick={() => {
+              setUrl("https://www.gmail.com");
+            }}
+          />
+          <SiFacebook
+            size={35}
+            id="icon"
+            onClick={() => {
+              setUrl("https://www.facebook.com");
+            }}
+          />
+          <SiTwitter
+            size={35}
+            id="icon"
+            onClick={() => {
+              setUrl("https://www.twitter.com");
+            }}
+          />
+          <SiLinkedin
+            size={35}
+            id="icon"
+            onClick={() => {
+              setUrl("https://www.linkedin.com");
+            }}
+          />
+          <SiDribbble
+            size={35}
+            id="icon"
+            onClick={() => {
+              setUrl("https://www.dribbble.com");
+            }}
+          />
+        </div>
