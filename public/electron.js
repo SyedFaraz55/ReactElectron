@@ -1,5 +1,5 @@
 const path = require("path");
-
+const { remote } = require("electron");
 const { app, BrowserWindow, Menu } = require("electron");
 const isDev = require("electron-is-dev");
 
@@ -18,6 +18,8 @@ function createWindow() {
       webviewTag: true,
     },
   });
+  win.webContents.openDevTools();
+
   win.setMenu(null);
   win.loadURL(
     isDev

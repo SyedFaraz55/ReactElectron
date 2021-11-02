@@ -5,7 +5,15 @@ import "./App.css";
 
 function App() {
   const [login, setLogin] = useState(true);
-  return <>{login ? <Login setLogin={setLogin} /> : <MainPage />}</>;
+  return (
+    <>
+      {!JSON.parse(localStorage.getItem("uuid")) ? (
+        <Login setLogin={setLogin} />
+      ) : (
+        <MainPage />
+      )}
+    </>
+  );
 }
 
 export default App;
