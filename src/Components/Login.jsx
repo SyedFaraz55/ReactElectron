@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, InputGroup, Form, Container } from "react-bootstrap";
-import Logo from "../res/brand.png";
+import Logo from "../res/iveond.png";
 import firebaseApp from "../firebase.config";
 import firebase from "firebase";
 

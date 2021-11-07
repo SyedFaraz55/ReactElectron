@@ -36,15 +36,16 @@ const MenuSection = ({ setUrl, setFavs, favs, setuserModal, usermodal }) => {
           onChange={(e) => setUrl(e.target.value)}
         >
           <option selected>Select Application</option>
-          {apps.map((item, index) => {
-            return (
-              <>
-                <option key={index} value={item.app_link}>
-                  {item.app_name}
-                </option>
-              </>
-            );
-          })}
+          {apps &&
+            apps.map((item, index) => {
+              return (
+                <>
+                  <option key={index} value={item.app_link}>
+                    {item.app_name}
+                  </option>
+                </>
+              );
+            })}
         </select>
       </div>
 

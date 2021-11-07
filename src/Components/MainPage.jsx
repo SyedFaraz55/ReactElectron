@@ -8,7 +8,7 @@ import { BiWallet } from "react-icons/bi";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { RiAddCircleFill } from "react-icons/ri";
 import { FiMenu } from "react-icons/fi";
-import Logo from "../res/brand.png";
+import Logo from "../res/iveond.png";
 import MenuSection from "./MenuSection";
 import firebaseApp from "../firebase.config";
 import firebase from "firebase";
@@ -22,6 +22,10 @@ export default function MainPage() {
   const [check, setCheck] = useState(true);
   const [account, setAccount] = useState(false);
   const [userModal, setUserModal] = useState(false);
+
+  const [newUser, setNewUser] = useState("");
+  const [newPassword, setNewPass] = useState("");
+  const [admin, setAdmin] = useState(false);
 
   const loadUser = () => {
     supabase
@@ -43,6 +47,13 @@ export default function MainPage() {
       .eq("email", JSON.parse(localStorage.getItem("uuid")))
       .then((data) => {
         setFavs(data.data[0].favs);
+      });
+
+    supabase
+      .from("user_db")
+      .select()
+      .then((data) => {
+        console.log(data);
       });
   }, []);
 
@@ -67,7 +78,7 @@ export default function MainPage() {
               />
             </p>
           </div>
-          <div
+          {/* <div
             onClick={() => setWallet(true)}
             style={{
               display: "flex",
@@ -82,28 +93,14 @@ export default function MainPage() {
             <p style={{ color: "#fff", marginLeft: 10, cursor: "pointer" }}>
               Wallet
             </p>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginTop: 0,
-              cursor: "pointer",
-            }}
-          >
-            <p>
-              <FiSettings size={30} color="#fff" />{" "}
-            </p>
-            <p style={{ color: "#fff", marginLeft: 10, cursor: "pointer" }}>
-              Settings
-            </p>
-          </div>
+          </div> */}
+
           <div
             onClick={() => setAccount(true)}
             style={{
               display: "flex",
               alignItems: "center",
-              marginTop: 0,
+              marginTop: 50,
               cursor: "pointer",
             }}
           >
@@ -146,26 +143,47 @@ export default function MainPage() {
               Add App
             </p>
           </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginTop: 0,
+              cursor: "pointer",
+            }}
+          >
+            <p>
+              <FiSettings size={30} color="#fff" />{" "}
+            </p>
+            <p style={{ color: "#fff", marginLeft: 10, cursor: "pointer" }}>
+              Settings
+            </p>
+          </div>
           <div style={{ marginTop: 20 }}>
             <p style={{ color: "#fff", marginLeft: 10 }}>Quick Access</p>
             <div style={{ marginTop: 20 }}>
-              <div className="row">
-                {favs.map((fav) => {
-                  console.log(fav, "here");
-                  return (
-                    <div className="col">
-                      <a onClick={() => setUrl(fav.appLink)}>
-                        <img
-                          alt="logo"
-                          src={fav.image}
-                          width={60}
-                          height={60}
-                          style={{ borderRadius: "50%" }}
-                        />
-                      </a>
-                    </div>
-                  );
-                })}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(3,1fr)",
+                }}
+              >
+                {favs &&
+                  favs.map((fav) => {
+                    console.log(fav, "here");
+                    return (
+                      <div className="col">
+                        <a onClick={() => setUrl(fav.appLink)}>
+                          <img
+                            alt="logo"
+                            src={fav.image}
+                            width={60}
+                            height={60}
+                            style={{ borderRadius: "50%" }}
+                          />
+                        </a>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
           </div>
@@ -182,7 +200,7 @@ export default function MainPage() {
               />
             </p>
           </div>
-          <div
+          {/* <div
             onClick={() => setWallet(true)}
             style={{
               display: "flex",
@@ -198,8 +216,8 @@ export default function MainPage() {
                 color="#fff"
               />{" "}
             </p>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", marginTop: 0 }}>
+          </div> */}
+          <div style={{ display: "flex", alignItems: "center", marginTop: 50 }}>
             <p>
               <FiSettings
                 style={{ marginLeft: -12, marginBottom: 10 }}
@@ -390,6 +408,63 @@ export default function MainPage() {
                 ) : null}
               </Card.Body>
             </Card>
+          </div>
+          <hr />
+          <div>
+            <div style={{ width: "40%", marginTop: 20 }}>
+              <h5>Add User</h5>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Control
+                  type="text"
+                  placeholder="User email"
+                  onChange={(e) => setNewUser(e.target.value)}
+                />
+                <Form.Control
+                  type="text"
+                  placeholder="User Password"
+                  onChange={(e) => setNewPass(e.target.value)}
+                />
+                <div class="form-check" style={{ marginTop: 10 }}>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    onChange={() => setAdmin(!admin)}
+                  />
+                  <label
+                    class="form-check-label"
+                    value={admin}
+                    for="defaultCheck1"
+                  >
+                    Mark this as admin
+                  </label>
+                </div>{" "}
+                <Button
+                  variant="warning"
+                  onClick={() => {
+                    supabase
+                      .from("user_db")
+                      .insert([
+                        {
+                          email: newUser,
+                          password: newPassword,
+                          admin,
+                        },
+                      ])
+                      .then((response) => {
+                        if (response.data) {
+                          alert("User added !");
+                          setNewUser("");
+                          setNewPass("");
+                          setAdmin(false);
+                          setAccount(false);
+                        }
+                      });
+                  }}
+                >
+                  Add User
+                </Button>
+              </Form.Group>
+            </div>
           </div>
         </div>
       </Modal>
